@@ -102,13 +102,11 @@ class VerifiedHTTPSConnection(HTTPSConnection):
           self.sock = ssl.wrap_socket(sock, self.key_file, self.cert_file,
                                       cert_reqs=self.cert_reqs,
                                       ca_certs=self.ca_certs,
-                                      server_hostname=self.host,
                                       ssl_version=ssl.PROTOCOL_SSLv3)
         except ssl.SSLError:
           self.sock = ssl.wrap_socket(sock, self.key_file, self.cert_file,
                                       cert_reqs=self.cert_reqs,
                                       ca_certs=self.ca_certs,
-                                      server_hostname=self.host,
                                       ssl_version=ssl.PROTOCOL_SSLv23)
 
         if self.ca_certs:
