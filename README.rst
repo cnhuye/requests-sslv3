@@ -1,82 +1,32 @@
-Requests: HTTP for Humans
-=========================
+Requests - SSLv3 Version
+========================
 
+What's this fork for?
+---------------------
 
-.. image:: https://travis-ci.org/kennethreitz/requests.png?branch=master
-        :target: https://travis-ci.org/kennethreitz/requests
+If you receive errors such as:
 
-Requests is an Apache2 Licensed HTTP library, written in Python, for human
-beings.
+    SSLError: [Errno 1] _ssl.c:504: error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version
 
-Most existing Python modules for sending HTTP requests are extremely
-verbose and cumbersome. Python's builtin urllib2 module provides most of
-the HTTP capabilities you should need, but the api is thoroughly broken.
-It requires an enormous amount of work (even method overrides) to
-perform the simplest of tasks.
+try using this fork. Everything is kept (relatively) to date with the [official
+requests repo](https://github.com/kennethreitz/requests) except what is needed
+to resolve this SSL issue.
 
-Things shouldn't be this way. Not in Python.
+Why not open an issue on requests?
+----------------------------------
 
-.. code-block:: pycon
+If you search the issues of official request repo, you'll see many issues
+regarding the inability to easily select SSL versions. The issue seems to be
+caused by OpenSSL on some Ubuntu machines, but requests has not adapted to this
+issue.
 
-    >>> r = requests.get('https://api.github.com', auth=('user', 'pass'))
-    >>> r.status_code
-    204
-    >>> r.headers['content-type']
-    'application/json'
-    >>> r.text
-    ...
+Relevant issues:
 
-See `the same code, without Requests <https://gist.github.com/973705>`_.
+* https://github.com/kennethreitz/requests/issues/606
+* https://github.com/kennethreitz/requests/issues/625
+* https://github.com/shazow/urllib3/pull/109
 
-Requests allow you to send HTTP/1.1 requests. You can add headers, form data,
-multipart files, and parameters with simple Python dictionaries, and access the
-response data in the same way. It's powered by httplib and `urllib3
-<https://github.com/shazow/urllib3>`_, but it does all the hard work and crazy
-hacks for you.
-
-
-Features
---------
-
-- International Domains and URLs
-- Keep-Alive & Connection Pooling
-- Sessions with Cookie Persistence
-- Browser-style SSL Verification
-- Basic/Digest Authentication
-- Elegant Key/Value Cookies
-- Automatic Decompression
-- Unicode Response Bodies
-- Multipart File Uploads
-- Connection Timeouts
-- Thread-safety
-
-
-Installation
-------------
-
-To install requests, simply:
-
-.. code-block:: bash
-
-    $ pip install requests
-
-Or, if you absolutely must:
-
-.. code-block:: bash
-
-    $ easy_install requests
-
-But, you really shouldn't do that.
-
-
-
-Contribute
-----------
-
-#. Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug. There is a Contributor Friendly tag for issues that should be ideal for people who are not very familiar with the codebase yet.
-#. Fork `the repository`_ on Github to start making your changes to the **master** branch (or branch off of it).
-#. Write a test which shows that the bug was fixed or that the feature works as expected.
-#. Send a pull request and bug the maintainer until it gets merged and published. :) Make sure to add yourself to AUTHORS_.
-
-.. _`the repository`: http://github.com/kennethreitz/requests
-.. _AUTHORS: https://github.com/kennethreitz/requests/blob/master/AUTHORS.rst
+The resolution to most issues is "upgrade your Python" or "upgrade OpenSSL",
+neither of which have worked for me. So this fork will contain my hack
+found in [#799](https://github.com/kennethreitz/requests/pull/799) to make
+requests work with sites that enforce SSLv3.
